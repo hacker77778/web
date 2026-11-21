@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NodoPC | Componentes de computadora</title>
+<style>
+:root{--bg:#07060f;--ink:#f1eeff;--mute:#9a92c0;--card:#120f24;--line:#2a2250;--acc:#00f0ff;--pink:#ff2bd6;--vio:#8b5cf6;--lime:#b6ff3c;--acc2:#1a1440;--on:#04040d;--warn:#ffb020;--bad:#ff5470;--glow:rgba(0,240,255,.35);--mono:"Cascadia Code",Consolas,"SF Mono",Menlo,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Bahnschrift,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.45;background:radial-gradient(50% 35% at 90% 0,rgba(255,43,214,.28),transparent 70%),radial-gradient(45% 40% at 5% 30%,rgba(0,240,255,.16),transparent 70%),linear-gradient(var(--line) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/44px 44px;-webkit-mask-image:linear-gradient(#000,transparent 85%);mask-image:linear-gradient(#000,transparent 85%)}
+button,input,select{font:inherit}
+header{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 28px;background:color-mix(in srgb,var(--card) 80%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{cursor:pointer;font-size:1.4rem;font-weight:800;letter-spacing:-.04em;display:flex;align-items:center;gap:8px}
+.logo::before{content:"";width:14px;height:14px;border-radius:4px;background:var(--acc);box-shadow:0 0 14px var(--glow),0 0 0 3px var(--acc2)}
+.logo i{font-style:normal;color:var(--acc)}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+button{cursor:pointer;border:1px solid transparent;background:linear-gradient(100deg,var(--pink),var(--vio));color:#fff;padding:9px 18px;border-radius:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:.8rem;transition:transform .15s,box-shadow .15s,background .15s}
+button:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 0 22px rgba(255,43,214,.6)}
+button.sec{background:transparent;color:var(--acc);border-color:var(--acc)}
+button.sec:hover:not(:disabled){background:var(--acc2);box-shadow:0 0 18px var(--glow)}
+button.del{background:transparent;color:var(--bad);border-color:var(--bad)}
+button:disabled{opacity:.4;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+main{max-width:1180px;margin:0 auto;padding:24px 28px 40px}
+.hero{padding:44px 0 26px}
+.hero h1{margin:0 0 12px;font-size:clamp(2rem,5.5vw,3.6rem);line-height:1;letter-spacing:-.045em;font-weight:800;max-width:14em}
+.hero p{margin:0;color:var(--mute);max-width:40em;font-size:1.05rem}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 14px}
+input,select{padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)}
+input:focus,select:focus{border-color:var(--acc);outline:none;box-shadow:0 0 0 3px var(--acc2)}
+.tools input{flex:1;min-width:200px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.chip{background:var(--card);color:var(--ink);border:1px solid var(--line);font-weight:600;padding:7px 15px;font-size:.92rem}
+.chip.on{background:var(--acc);color:var(--on);border-color:var(--acc);box-shadow:0 0 16px var(--glow)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s,border-color .25s;animation:rise .5s both}
+.card:hover{transform:translateY(-6px);border-color:var(--pink);box-shadow:0 0 0 1px var(--pink),0 18px 44px -10px rgba(255,43,214,.55)}
+.card img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;background:var(--acc2);transition:transform .4s}
+.card:hover img{transform:scale(1.04)}
+.card{--x:0}
+.card .b{padding:14px 16px 16px;display:flex;flex-direction:column;gap:5px;flex:1;background:var(--card);position:relative}
+.card button{width:100%;margin-top:10px;border-radius:12px}
+.brand{color:var(--acc);font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em}
+.card h3{margin:0;font-size:1.1rem;letter-spacing:-.02em}
+.specs{color:var(--mute);font-size:.88rem;flex:1}
+.price{color:var(--lime);font-family:var(--mono);font-size:1.3rem;font-weight:700;margin-top:6px;letter-spacing:-.03em}
+.st{font-family:var(--mono);font-size:.76rem;color:var(--mute)}
+.st.low{color:var(--warn)}.st.out{color:var(--bad)}
+.hidden{display:none!important}
+aside{position:fixed;right:0;top:0;bottom:0;width:min(400px,100%);background:var(--card);border-left:1px solid var(--line);padding:24px;transform:translateX(100%);transition:transform .3s cubic-bezier(.2,.8,.2,1);z-index:10;overflow:auto;box-shadow:-20px 0 60px rgba(0,0,0,.18)}
+aside.open{transform:none}
+aside h2{font-size:1.5rem;letter-spacing:-.03em}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.row button.del{padding:2px 9px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin:14px 0 24px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.stat span{color:var(--mute);font-size:.85rem}
+.stat b{display:block;font-family:var(--mono);font-size:1.6rem;letter-spacing:-.03em;color:var(--acc)}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px}
+table{width:100%;border-collapse:collapse;background:var(--card)}
+th{font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);background:var(--acc2)}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td img{width:52px;height:36px;object-fit:cover;border-radius:6px;vertical-align:middle}
+form.f{display:grid;gap:10px;max-width:480px}
+#login{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;margin:30px auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.msg{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:60;padding:12px 20px;border-radius:999px;background:var(--ink);color:var(--bg);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.msg.err{background:var(--bad);color:#fff}
+h2{margin:26px 0 10px;letter-spacing:-.03em}
+footer{max-width:1180px;margin:0 auto;padding:22px 28px 34px;border-top:1px solid var(--line);color:var(--mute);font-family:var(--mono);font-size:.78rem;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+/* ===== GAMER ===== */
+html,body{overflow-x:clip}
+header{border-bottom-color:rgba(255,43,214,.4)}
+.logo::before{background:linear-gradient(135deg,var(--acc),var(--pink));box-shadow:0 0 16px var(--pink)}
+.logo i{color:var(--pink)}
+.hero-g{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-top:-24px;min-height:calc(100vh - 62px);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.hg-in{max-width:1180px;margin:0 auto;padding:48px 28px 36px;width:100%;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;flex:1}
+.hg-eye{font-family:var(--mono);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--lime);display:flex;align-items:center;gap:10px;animation:rise .7s both}
+.hg-eye::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px var(--lime);animation:blink 1.4s infinite}
+.hero-g h1{margin:16px 0;font-size:clamp(2.6rem,8vw,5.6rem);line-height:.92;font-weight:900;letter-spacing:-.05em;text-transform:uppercase;animation:rise .7s .1s both}
+.hero-g h1 span{display:block;background:linear-gradient(90deg,var(--acc),var(--pink),var(--vio),var(--acc));background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite;filter:drop-shadow(0 0 18px rgba(255,43,214,.5))}
+.hero-g p{color:var(--mute);font-size:1.12rem;max-width:30em;margin:0 0 26px;animation:rise .7s .2s both}
+.cta{font-size:1rem;padding:16px 34px;border-radius:12px;box-shadow:0 0 30px rgba(255,43,214,.5);animation:rise .7s .3s both,glowp 2.4s 1s infinite}
+.hg-feats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px;animation:rise .7s .5s both}
+.hg-feats div{border:1px solid var(--line);border-top:2px solid var(--acc);border-radius:10px;padding:10px 12px;font-size:.82rem;color:var(--mute);background:rgba(18,15,36,.7)}
+.hg-feats b{display:block;color:var(--ink);font-size:.95rem}
+.hg-art{position:relative;aspect-ratio:1;width:100%;max-width:420px;justify-self:center;animation:rise .9s .2s both}
+.hg-art .ring{position:absolute;inset:6%;border-radius:50%;background:conic-gradient(var(--acc),var(--pink),var(--vio),var(--acc));filter:blur(46px);opacity:.6;animation:spin 8s linear infinite}
+.hg-art .pins{position:absolute;inset:12%;background:repeating-linear-gradient(90deg,var(--acc) 0 6px,transparent 6px 17px) 50% 0/74% 14px no-repeat,repeating-linear-gradient(90deg,var(--acc) 0 6px,transparent 6px 17px) 50% 100%/74% 14px no-repeat,repeating-linear-gradient(180deg,var(--acc) 0 6px,transparent 6px 17px) 0 50%/14px 74% no-repeat,repeating-linear-gradient(180deg,var(--acc) 0 6px,transparent 6px 17px) 100% 50%/14px 74% no-repeat;filter:drop-shadow(0 0 6px var(--acc))}
+.hg-art .pkg{position:absolute;inset:17%;border-radius:22px;border:2px solid var(--vio);background:linear-gradient(145deg,#1d1546,#0b0820);box-shadow:0 0 60px rgba(139,92,246,.6),inset 0 0 0 8px #0b0820;display:grid;place-items:center;animation:float 5s ease-in-out infinite}
+.hg-art .die{width:52%;aspect-ratio:1;border-radius:12px;border:2px solid var(--pink);background:#07060f;display:grid;place-items:center;font-family:var(--mono);font-weight:700;letter-spacing:.14em;color:var(--pink);text-shadow:0 0 12px var(--pink);box-shadow:0 0 34px rgba(255,43,214,.6),inset 0 0 24px rgba(255,43,214,.4);animation:pulse 2.6s ease-in-out infinite}
+.mq{overflow:hidden;border-block:1px solid var(--line);background:linear-gradient(90deg,var(--pink),var(--vio));padding:10px 0;white-space:nowrap}
+.mq-t{display:inline-flex;gap:34px;animation:mq 26s linear infinite;font-family:var(--mono);font-weight:700;letter-spacing:.2em;font-size:.85rem;color:#fff}
+.mq-t span::after{content:"✦";margin-left:34px;opacity:.7}
+.sec-title{margin:44px 0 22px}
+.sec-title h2{margin:0 0 4px;font-size:clamp(1.7rem,4vw,2.5rem);text-transform:uppercase;letter-spacing:-.03em}
+.sec-title h2::after{content:"";display:block;width:80px;height:4px;margin:8px 0 10px;border-radius:2px;background:linear-gradient(90deg,var(--pink),var(--acc))}
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes pulse{50%{box-shadow:0 0 56px rgba(255,43,214,.9),inset 0 0 36px rgba(255,43,214,.6)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shine{to{background-position:-250% 0}}
+@keyframes blink{50%{opacity:.25}}
+@keyframes mq{to{transform:translateX(-50%)}}
+@keyframes glowp{50%{box-shadow:0 0 52px rgba(255,43,214,.85)}}
+@media (max-width:820px){.hg-in{grid-template-columns:1fr;gap:20px;padding-top:28px}.hg-art{order:-1;max-width:220px}.hg-feats{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" id="logo" role="button" tabindex="0" title="Ir al inicio">Nodo<i>PC</i></div>
+  <nav>
+    <button class="sec" data-go="catalogo">Catálogo</button>
+    <button class="sec" data-go="admin">Panel de control</button>
+    <button id="btnCart">Carrito (<span id="cartN">0</span>)</button>
+    <button id="btnLogout" class="sec hidden">Cerrar sesión</button>
+  </nav>
+</header>
+<main>
+  <section id="v-catalogo">
+    <div class="hero-g">
+      <div class="hg-in">
+        <div>
+          <div class="hg-eye">Nuevo stock disponible</div>
+          <h1>Sube de nivel <span>tu setup</span></h1>
+          <p>Procesadores, tarjetas gráficas, RAM y más para armar la PC gamer que mereces. Stock real, actualizado en cada compra.</p>
+          <button class="cta" id="goShop">Ver productos ↓</button>
+          <div class="hg-feats"><div><b>Stock real</b>Se descuenta al comprar</div><div><b>8 categorías</b>Todo para tu equipo</div><div><b>Compra simple</b>Elige y finaliza</div></div>
+        </div>
+        <div class="hg-art" aria-hidden="true"><div class="ring"></div><div class="pins"></div><div class="pkg"><div class="die">NODO</div></div></div>
+      </div>
+      <div class="mq" aria-hidden="true"><div class="mq-t"><span>CPU</span><span>GPU</span><span>RAM</span><span>PLACA MADRE</span><span>SSD</span><span>FUENTE</span><span>GABINETE</span><span>REFRIGERACIÓN</span><span>CPU</span><span>GPU</span><span>RAM</span><span>PLACA MADRE</span><span>SSD</span><span>FUENTE</span><span>GABINETE</span><span>REFRIGERACIÓN</span></div></div>
+    </div>
+    <div id="tienda" class="sec-title"><h2>Elige tus componentes</h2><p style="color:var(--mute);margin:0">Filtra por categoría, busca por nombre o marca y agrega al carrito.</p></div>
+    <div class="tools">
+      <input id="q" type="search" placeholder="Buscar por nombre o marca" aria-label="Buscar">
+      <select id="sort" aria-label="Ordenar">
+        <option value="">Ordenar</option><option value="asc">Precio: menor a mayor</option><option value="desc">Precio: mayor a menor</option><option value="name">Nombre</option>
+      </select>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div id="grid" class="grid"></div>
+  </section>
+
+  <section id="v-admin" class="hidden">
+    <form id="login" class="f">
+      <h2>Acceso al panel de control</h2>
+      <input id="u" placeholder="Usuario" autocomplete="username" required>
+      <input id="p" type="password" placeholder="Contraseña" autocomplete="current-password" required>
+      <button>Ingresar</button>
+    </form>
+    <div id="panel" class="hidden">
+      <h2 style="margin-top:0">Panel de control</h2>
+      <div class="stats">
+        <div class="stat"><span>Productos</span><b id="s1">0</b></div>
+        <div class="stat"><span>Unidades en stock</span><b id="s2">0</b></div>
+        <div class="stat"><span>Valor del inventario</span><b id="s3">0</b></div>
+        <div class="stat"><span>Stock bajo (≤3)</span><b id="s4">0</b></div>
+      </div>
+      <h2 id="ftitle">Nuevo producto</h2>
+      <form id="pf" class="f">
+        <input type="hidden" id="pid">
+        <input id="pn" placeholder="Nombre (ej. Ryzen 5 5600)" required>
+        <div class="two"><input id="pb" placeholder="Marca" required><select id="pc" aria-label="Categoría"></select></div>
+        <div class="two"><input id="pp" type="number" step="0.01" min="0" placeholder="Precio" required><input id="ps" type="number" min="0" step="1" placeholder="Stock" required></div>
+        <input id="psp" placeholder="Especificaciones (ej. 6 núcleos · 4.4 GHz)">
+        <input id="pi" placeholder="URL de imagen (vacío = ilustración automática)">
+        <div><button>Guardar producto</button> <button type="button" class="sec" id="pcancel">Limpiar</button></div>
+      </form>
+      <h2>Inventario</h2>
+      <p><button class="sec" id="seed">Cargar 12 productos de ejemplo</button></p>
+      <div class="wrap"><table><thead><tr><th></th><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th></th></tr></thead><tbody id="ptb"></tbody></table></div>
+    </div>
+  </section>
+</main>
+
+<footer><span>NodoPC · Componentes de computadora</span><span>Stock actualizado en cada compra</span></footer>
+
+<aside id="cartBox" aria-label="Carrito">
+  <h2 style="margin-top:0">Carrito</h2>
+  <div id="cartItems"></div>
+  <p class="price">Total: <span id="total">0.00</span></p>
+  <button id="btnBuy">Finalizar compra</button> <button class="sec" id="btnClose">Cerrar</button>
+</aside>
+<div id="msg" class="msg hidden" role="status"></div>
+
+<script>
+/* ===== CONFIGURACIÓN =====
+   URL completa de tu recurso en mockapi.io (termina en /productos).
+   Campos: name, brand, category, price, stock, specs, image
+   Vacía = modo demostración (datos en memoria). */
+const API = "https://6aff025a3a0e70bc8d546e7c.mockapi.io/productos"; // URL completa del recurso
+const ADMIN_USER = "admin";   // login por código
+const ADMIN_PASS = "nodo2026";
+const MONEDA = "Bs";
+const CATS = ["CPU","GPU","RAM","Placa madre","SSD","Fuente","Gabinete","Refrigeración"];
+
+/* ===== IMÁGENES GENERADAS (SVG) ===== */
+const HUE = {CPU:225,GPU:150,RAM:35,"Placa madre":275,SSD:195,Fuente:0,Gabinete:210,"Refrigeración":170};
+function art(cat,seed=0){
+  const h=(HUE[cat]??220)+(seed%5)*6, c=`hsl(${h} 70% 45%)`, c2=`hsl(${h} 60% 28%)`, bg=`hsl(${h} 40% 92%)`;
+  const fan=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#0f131a"/>`+[0,72,144,216,288].map(a=>`<ellipse cx="${x}" cy="${y-r*.48}" rx="${r*.2}" ry="${r*.42}" fill="${c}" transform="rotate(${a} ${x} ${y})"/>`).join("")+`<circle cx="${x}" cy="${y}" r="${r*.16}" fill="#dfe5f0"/>`;
+  const pins=(x,y,w,n,g)=>Array.from({length:n},(_,i)=>`<rect x="${x+i*g}" y="${y}" width="${w}" height="10" fill="#d6a83a"/>`).join("");
+  let s="";
+  switch(cat){
+    case "CPU": s=`<rect x="95" y="45" width="110" height="110" rx="8" fill="#c9ced8"/><rect x="112" y="62" width="76" height="76" rx="5" fill="${c2}"/><rect x="128" y="78" width="44" height="44" rx="3" fill="${c}"/>`+Array.from({length:8},(_,i)=>`<rect x="${104+i*13}" y="155" width="6" height="12" fill="#d6a83a"/><rect x="${104+i*13}" y="33" width="6" height="12" fill="#d6a83a"/>`).join("");break;
+    case "GPU": s=`<rect x="40" y="62" width="220" height="80" rx="8" fill="#1a2030"/><rect x="40" y="62" width="220" height="10" rx="4" fill="${c}"/>${fan(105,102,28)}${fan(195,102,28)}<rect x="55" y="142" width="130" height="12" fill="#d6a83a"/><rect x="28" y="58" width="10" height="90" fill="#9aa3b2"/>`;break;
+    case "RAM": s=`<rect x="30" y="70" width="240" height="56" rx="4" fill="${c2}"/><rect x="30" y="70" width="240" height="12" fill="${c}"/>`+[0,1,2,3,4,5].map(i=>`<rect x="${42+i*38}" y="90" width="30" height="26" rx="2" fill="#0f131a"/>`).join("")+pins(34,126,5,29,8.1);break;
+    case "Placa madre": s=`<rect x="60" y="30" width="180" height="140" rx="6" fill="${c2}"/><rect x="85" y="55" width="46" height="46" rx="3" fill="#c9ced8"/><rect x="85" y="55" width="46" height="46" rx="3" fill="none" stroke="${c}" stroke-width="3"/>`+[0,1,2,3].map(i=>`<rect x="160" y="${50+i*14}" width="65" height="7" fill="#0f131a"/>`).join("")+`<rect x="85" y="125" width="120" height="8" fill="#0f131a"/><rect x="85" y="145" width="120" height="8" fill="#0f131a"/>`;break;
+    case "SSD": s=`<rect x="55" y="45" width="190" height="110" rx="10" fill="#1a2030"/><rect x="72" y="62" width="110" height="76" rx="4" fill="${c}"/><rect x="82" y="76" width="70" height="8" fill="#fff" opacity=".85"/><rect x="82" y="92" width="45" height="6" fill="#fff" opacity=".6"/>`;break;
+    case "Fuente": s=`<rect x="50" y="50" width="200" height="100" rx="6" fill="#1a2030"/>${fan(110,100,36)}`+Array.from({length:5},(_,i)=>`<rect x="175" y="${68+i*12}" width="55" height="5" fill="#2e3648"/>`).join("")+`<rect x="50" y="50" width="200" height="8" fill="${c}"/>`;break;
+    case "Gabinete": s=`<rect x="95" y="22" width="110" height="158" rx="6" fill="#1a2030"/><rect x="105" y="34" width="62" height="100" rx="3" fill="${c}" opacity=".35"/>${fan(136,86,24)}<rect x="105" y="142" width="90" height="26" rx="3" fill="#2e3648"/><rect x="178" y="40" width="18" height="10" fill="${c}"/>`;break;
+    default: s=`<rect x="100" y="40" width="100" height="100" rx="8" fill="#9aa3b2"/>${fan(150,90,42)}<rect x="130" y="140" width="40" height="26" fill="#c9ced8"/>`;
+  }
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect width="300" height="200" fill="${bg}"/><g opacity=".35" stroke="${c}"><path d="M0 40H300M0 100H300M0 160H300M60 0V200M150 0V200M240 0V200" stroke-width=".6"/></g>${s}</svg>`;
+  return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
+}
+
+/* ===== DATOS (MockAPI o demo) ===== */
+const SEED=[
+["Ryzen 5 5600","AMD","CPU",1150,12,"6 núcleos · 12 hilos · 4.4 GHz"],
+["Core i5-12400F","Intel","CPU",1250,9,"6 núcleos · 12 hilos · 4.4 GHz"],
+["GeForce RTX 4060 8GB","NVIDIA","GPU",2900,6,"8 GB GDDR6 · DLSS 3"],
+["Radeon RX 7600","AMD","GPU",2400,5,"8 GB GDDR6 · FSR 3"],
+["Fury Beast 16GB DDR4","Kingston","RAM",380,25,"2×8 GB · 3200 MHz"],
+["Vengeance 32GB DDR5","Corsair","RAM",890,14,"2×16 GB · 6000 MHz"],
+["B550M Pro-VDH","MSI","Placa madre",980,10,"AM4 · Micro-ATX · DDR4"],
+["B760 Gaming X","Gigabyte","Placa madre",1350,7,"LGA1700 · ATX · DDR5"],
+["NV2 1TB NVMe","Kingston","SSD",420,30,"PCIe 4.0 · 3500 MB/s"],
+["MWE 650W Bronze","Cooler Master","Fuente",520,11,"650 W · 80+ Bronze"],
+["4000D Airflow","Corsair","Gabinete",780,3,"ATX · frente de malla"],
+["Hyper 212","Cooler Master","Refrigeración",290,15,"Torre · ventilador 120 mm"]
+].map(([name,brand,category,price,stock,specs])=>({name,brand,category,price,stock,specs,image:""}));
+let mem=SEED.map((p,i)=>({...p,id:String(i+1)}));
+async function req(method="GET",body,id=""){
+  if(!API){
+    if(method==="GET")return structuredClone(mem);
+    if(method==="POST"){const n={...body,id:String(Date.now()+Math.random())};mem.push(n);return n}
+    if(method==="PUT"){const i=mem.findIndex(x=>x.id==id);mem[i]={...mem[i],...body};return mem[i]}
+    if(method==="DELETE"){mem=mem.filter(x=>x.id!=id);return{}}
+  }
+  const r=await fetch(`${API}${id?"/"+id:""}`,{method,headers:{"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined});
+  if(!r.ok){let t="";try{t=(await r.text()).slice(0,100)}catch(_){}throw new Error("Error "+r.status+" al conectar con MockAPI"+(t?" ("+t+")":""))}
+  return r.json();
+}
+
+/* ===== ESTADO / UTIL ===== */
+let products=[],cat="",cart=JSON.parse(sessionStorage.getItem("cart")||"{}");
+const $=s=>document.querySelector(s), money=n=>Number(n).toLocaleString("es-BO",{minimumFractionDigits:2,maximumFractionDigits:2});
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const img=p=>p.image||art(p.category,+String(p.id).slice(-1)||0);
+function say(t,err){const m=$("#msg");m.textContent=t;m.className="msg"+(err?" err":"");clearTimeout(say.t);say.t=setTimeout(()=>m.classList.add("hidden"),3500)}
+const norm=p=>({...p,id:String(p.id),name:p.name??"",brand:p.brand??"",category:p.category??"",specs:p.specs??"",price:Number(p.price)||0,stock:parseInt(p.stock)||0});
+/* Registros "fantasma": existen en el listado pero su id no responde en MockAPI (404 al PUT/DELETE) */
+const gKey=p=>p.id+"|"+p.name;
+const ghosts=()=>{try{return JSON.parse(localStorage.getItem("ghosts")||"[]")}catch(_){return[]}};
+const addGhost=p=>{const g=ghosts();if(!g.includes(gKey(p))){g.push(gKey(p));localStorage.setItem("ghosts",JSON.stringify(g))}};
+const getAll=async()=>{const g=ghosts();return(await req()).map(norm).filter(p=>!g.includes(gKey(p)))};
+const is404=e=>/Error 404/.test(e.message);
+/* Recrea el producto con un id real y descarta el id roto */
+async function migrate(p,data){
+  const n=await req("POST",data);
+  try{await req("DELETE",null,p.id)}catch(_){}
+  addGhost(p);
+  return n;
+}
+async function setStock(p,n){
+  const full={name:p.name,brand:p.brand,category:p.category,price:p.price,stock:n,specs:p.specs,image:p.image||""};
+  try{return await req("PUT",{stock:n},p.id)}
+  catch(e){if(!is404(e))throw e;return await migrate(p,full)}
+}
+async function load(){try{products=await getAll()}catch(e){say(e.message,true)}render()}
+$("#pc").innerHTML=CATS.map(c=>`<option>${c}</option>`).join("");
+
+/* ===== CATÁLOGO ===== */
+function render(){
+  $("#chips").innerHTML=["",...CATS].map(c=>`<button class="chip ${c===cat?"on":""}" data-cat="${c}">${c||"Todo"}</button>`).join("");
+  const q=$("#q").value.toLowerCase(),so=$("#sort").value;
+  let l=products.filter(p=>(!cat||p.category===cat)&&(p.name+" "+p.brand).toLowerCase().includes(q));
+  if(so==="asc")l.sort((a,b)=>a.price-b.price);if(so==="desc")l.sort((a,b)=>b.price-a.price);if(so==="name")l.sort((a,b)=>a.name.localeCompare(b.name));
+  $("#grid").innerHTML=l.length?l.map(p=>{
+    const st=p.stock<=0?["out","Agotado"]:p.stock<=3?["low","Quedan "+p.stock]:["","Stock: "+p.stock];
+    return `<article class="card"><img src="${esc(img(p))}" alt="${esc(p.name)}" loading="lazy"><div class="b">
+      <span class="brand">${esc(p.brand)} · ${esc(p.category)}</span><h3>${esc(p.name)}</h3><span class="specs">${esc(p.specs)}</span>
+      <span class="price">${MONEDA} ${money(p.price)}</span><span class="st ${st[0]}">${st[1]}</span>
+      <button data-add="${p.id}" ${p.stock<=0?"disabled":""}>Agregar al carrito</button></div></article>`}).join(""):"<p>No hay productos con ese filtro.</p>";
+  renderCart();renderAdmin();
+}
+$("#q").oninput=render;$("#sort").onchange=render;
+
+/* ===== CARRITO Y STOCK ===== */
+const saveCart=()=>sessionStorage.setItem("cart",JSON.stringify(cart));
+function renderCart(){
+  let t=0,n=0;
+  $("#cartItems").innerHTML=Object.entries(cart).map(([id,q])=>{const p=products.find(x=>x.id==id);if(!p)return"";t+=p.price*q;n+=q;
+    return `<div class="row"><span>${esc(p.name)} × ${q}</span><span>${MONEDA} ${money(p.price*q)} <button class="del" data-rm="${id}" aria-label="Quitar ${esc(p.name)}">×</button></span></div>`}).join("")||"<p>Tu carrito está vacío.</p>";
+  $("#total").textContent=MONEDA+" "+money(t);$("#cartN").textContent=n;
+}
+$("#btnCart").onclick=()=>$("#cartBox").classList.add("open");
+$("#btnClose").onclick=()=>$("#cartBox").classList.remove("open");
+$("#btnBuy").onclick=async()=>{
+  const it=Object.entries(cart);if(!it.length)return say("Tu carrito está vacío.",true);
+  try{
+    products=await getAll(); // stock real antes de restar
+    for(const [id,q] of it){const p=products.find(x=>x.id==id);if(!p||p.stock<q)throw new Error("Stock insuficiente: "+(p?p.name:"producto no disponible"))}
+    for(const [id,q] of it){const p=products.find(x=>x.id==id);await setStock(p,p.stock-q)}
+    cart={};saveCart();$("#cartBox").classList.remove("open");say("Compra realizada. Stock actualizado.");load();
+  }catch(e){say(e.message,true);load()}
+};
+
+/* ===== PANEL DE CONTROL ===== */
+const isAdmin=()=>sessionStorage.getItem("admin")==="1";
+function go(v){$("#v-catalogo").classList.toggle("hidden",v!=="catalogo");$("#v-admin").classList.toggle("hidden",v!=="admin");location.hash=v;renderAdmin()}
+function renderAdmin(){
+  const ok=isAdmin();$("#login").classList.toggle("hidden",ok);$("#panel").classList.toggle("hidden",!ok);$("#btnLogout").classList.toggle("hidden",!ok);
+  if(!ok)return;
+  $("#s1").textContent=products.length;$("#s2").textContent=products.reduce((a,p)=>a+p.stock,0);
+  $("#s3").textContent=MONEDA+" "+money(products.reduce((a,p)=>a+p.stock*p.price,0));$("#s4").textContent=products.filter(p=>p.stock<=3).length;
+  $("#ptb").innerHTML=products.map(p=>`<tr><td><img src="${esc(img(p))}" alt=""></td><td>${esc(p.name)}<br><small>${esc(p.brand)}</small></td><td>${esc(p.category)}</td><td>${MONEDA} ${money(p.price)}</td><td>${p.stock}</td>
+    <td><button class="sec" data-edit="${p.id}">Editar</button> <button class="del" data-del="${p.id}">Eliminar</button></td></tr>`).join("");
+}
+$("#login").onsubmit=e=>{e.preventDefault();
+  if($("#u").value===ADMIN_USER&&$("#p").value===ADMIN_PASS){sessionStorage.setItem("admin","1");$("#p").value="";renderAdmin()}else say("Usuario o contraseña incorrectos.",true)};
+$("#btnLogout").onclick=()=>{sessionStorage.removeItem("admin");go("catalogo")};
+function clearForm(){$("#pf").reset();$("#pid").value="";$("#ftitle").textContent="Nuevo producto"}
+$("#pcancel").onclick=clearForm;
+$("#pf").onsubmit=async e=>{e.preventDefault();
+  const d={name:$("#pn").value.trim(),brand:$("#pb").value.trim(),category:$("#pc").value,price:+$("#pp").value,stock:parseInt($("#ps").value),specs:$("#psp").value.trim(),image:$("#pi").value.trim()};
+  const id=$("#pid").value;
+  try{
+    if(id){try{await req("PUT",d,id)}catch(e){if(!is404(e))throw e;const p=products.find(x=>x.id==id);await migrate(p||{id,name:d.name},d)}}
+    else await req("POST",d);
+    say(id?"Producto actualizado.":"Producto creado.");clearForm();load()}catch(x){say(x.message,true)}};
+$("#seed").onclick=async()=>{
+  if(!confirm("Se agregarán 12 productos de ejemplo. ¿Continuar?"))return;
+  try{for(const p of SEED)await req("POST",p);say("Productos cargados.");load()}catch(x){say(x.message,true)}};
+
+document.addEventListener("click",e=>{
+  const btnAdd=e.target.closest("[data-add]"),a=btnAdd?btnAdd.dataset:e.target.dataset;
+  if(a.go!==undefined)go(a.go);
+  if(a.cat!==undefined){cat=a.cat;render()}
+  if(a.add){const id=String(a.add),p=products.find(x=>String(x.id)===id);if(!p)return say("Producto no encontrado. Recarga la página.",true);const q=(cart[id]||0)+1;if(q>p.stock)return say("No hay más unidades disponibles.",true);cart={[id]:q};saveCart();renderCart();say(p.name+" agregado.")}
+  if(a.rm){delete cart[a.rm];saveCart();renderCart()}
+  if(a.edit){const p=products.find(x=>x.id==a.edit);$("#pid").value=p.id;$("#pn").value=p.name;$("#pb").value=p.brand;$("#pc").value=p.category;$("#pp").value=p.price;$("#ps").value=p.stock;$("#psp").value=p.specs||"";$("#pi").value=p.image||"";$("#ftitle").textContent="Editar producto";scrollTo({top:0,behavior:"smooth"})}
+  if(a.del&&confirm("¿Eliminar este producto?"))req("DELETE",null,a.del).catch(e=>{if(!is404(e))throw e;const p=products.find(x=>x.id==a.del);if(p)addGhost(p)}).then(()=>{say("Producto eliminado.");load()}).catch(x=>say(x.message,true));
+});
+go(location.hash==="#admin"?"admin":"catalogo");load();
+</script>
+<script>
+(function(){const to=()=>document.getElementById("tienda").scrollIntoView({behavior:"smooth"});
+document.getElementById("goShop").onclick=to;
+document.addEventListener("click",e=>{const t=e.target.closest("[data-go=catalogo]");if(t&&!t.dataset.top)setTimeout(to,0)});
+document.getElementById("logo").onclick=()=>{const b=document.querySelector("[data-go=catalogo]");b.dataset.top="1";b.click();delete b.dataset.top;scrollTo({top:0,behavior:"smooth"})};
+})();
+</script>
+</body>
+</html>
